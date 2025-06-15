@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rightmove Seen Properties Viewer</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background: #f9f9f9; color: #333; }
+    h1 { margin-bottom: 1em; }
+    .property { background: #fff; border: 1px solid #ccc; border-radius: 5px; padding: 1em; margin-bottom: 1em; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .timestamp { font-size: 0.85em; color: gray; margin-bottom: 0.5em; }
+    strong { font-size: 1.1em; }
+    em { color: #555; }
+    p { margin-top: 0.5em; }
+  </style>
+</head>
+<body>
+  <h1>Seen Rightmove Properties</h1>
+  <div id="results">Loading...</div>
+
+  <script>
+    fetch('seen.json')
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then(data => {
+        const container = document.getElementById('results');
+        container.innerHTML = '';
+
+        const propsArray = Object.values(data).sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+
+        if (propsArray.length === 0) {
+          container.innerText = 'No properties found.';
+          return;
+        }
+
+        propsArray.forEach(prop => {
+          container.innerHTML += `
+            <div class="property">
+              <div class="timestamp">Scraped: ${prop.timestamp}</div>
+              <a href="${prop.link}" target="_blank" rel="noopener noreferrer">
+                <strong>${prop.address}</strong>
+              </a><br>
+              <em>${prop.type}</em><br>
+              Price: ${prop.price} | Beds: ${prop.beds} | Baths: ${prop.baths} | Images: ${prop.images}<br>
+              <p>${prop.description}</p>
+            </div>
+          `;
+        });
+      })
+      .catch(err => {
+        const container = document.getElementById('results');
+        container.innerText = 'Error loading data.';
+        console.error('Fetch error:', err);
+      });
+  </script>
+</body>
+</html>
