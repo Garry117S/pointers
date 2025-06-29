@@ -475,7 +475,7 @@ https://templatemo.com/tm-568-digimedia
                   <img src="assets/images/portfolio-02.jpg" alt="">
                 </div>
                 <div class="down-content">
-                  <h4>View.imageshare.uk/</h4>
+                  <h4>View.imageshare.uk</h4>
                   <span>A Django powered image sharing site</span>
                 </div>
               </div>
@@ -690,6 +690,22 @@ https://templatemo.com/tm-568-digimedia
   <script src="assets/js/animation.js"></script>
   <script src="assets/js/imagesloaded.js"></script>
   <script src="assets/js/custom.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      $('.loop').owlCarousel('destroy'); // destroy previous instance if any
+      $('.loop').owlCarousel({
+        loop: false,
+        autoplay: false,
+        items: 3,
+        margin: 10,
+        nav: true
+      });
+    });
+  </script>
+
+<script src="https://cdn.formspree.io/js/formbutton-v1.min.js" defer></script>
+
 
 </body>
 </html> 
